@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@drawable/main_gradient">
+
+    <LinearLayout
+        android:id="@+id/loading_servers_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Loading servers"
+            android:layout_marginEnd="8dp"
+            android:includeFontPadding="false"
+            android:textColor="#fff"
+            android:textSize="22sp" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loadingServersIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            style="@style/AVLoadingIndicatorView.Small"
+            app:indicatorName="BallPulseIndicator" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/loading_servers_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#85ffffff"
+        android:text="Please wait a few seconds."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loading_servers_title" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/main_gradient">
+
+    <TextView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:includeFontPadding="false"
+        android:textColor="#fff"
+        tools:text="TEST" />
+
+    <ua.dev.krava.speedtest.presentation.widget.SpeedometerView
+        android:id="@+id/progressView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        app:arc_progress="0" />
+
+
+    <LinearLayout
+        android:id="@+id/speed_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:visibility="invisible"
+        android:layout_below="@id/progressView"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvSpeedValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:includeFontPadding="false"
+            android:text="0.00"
+            android:textColor="#fff"
+            android:textSize="26sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="4dp"
+            android:text="MB"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/testResultContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        android:animateLayoutChanges="true"
+        android:layout_below="@id/speed_container"
+        android:weightSum="3">
+
+        <FrameLayout
+            android:id="@+id/pingContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_medium"
+                android:includeFontPadding="false"
+                android:gravity="bottom"
+                android:text="ping"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/pingValue"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:includeFontPadding="false"
+                android:gravity="center_vertical"
+                android:text="10 ms"
+                android:textColor="#b5ffffff"
+                android:textSize="14sp" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/downloadContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_medium"
+                android:includeFontPadding="false"
+                android:gravity="bottom"
+                android:text="download"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/downloadValue"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:includeFontPadding="false"
+                android:gravity="center_vertical"
+                android:text="50 mb/s"
+                android:textColor="#b5ffffff"
+                android:textSize="14sp" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/uploadContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_medium"
+                android:includeFontPadding="false"
+                android:gravity="bottom"
+                android:text="upload"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/uploadValue"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:includeFontPadding="false"
+                android:gravity="center_vertical"
+                android:text="50 mb/s"
+                android:textColor="#b5ffffff"
+                android:textSize="14sp" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btnStartTest"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/speed_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/bg_btn_primary"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:text="start test"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+
+</RelativeLayout>

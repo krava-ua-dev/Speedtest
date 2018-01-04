@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ua.dev.krava.speedtest.presentation.features.main.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp">
+
+    </FrameLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="56dp"
+        android:background="#66000000"
+        android:elevation="6dp"
+        app:itemTextColor="@drawable/main_tabs_selector"
+        app:itemIconTint="@drawable/main_tabs_selector"
+        app:menu="@menu/main"
+        android:layout_gravity="bottom" />
+</android.support.design.widget.CoordinatorLayout>
