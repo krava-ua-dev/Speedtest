@@ -25,17 +25,17 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private lateinit var paintArcOut: Paint
     private lateinit var indicatorPaint: Paint
     private lateinit var textPaint: Paint
-    private lateinit var sukTextPaint: Paint
+    private lateinit var speedTextPaint: Paint
     private val METRIC = "MB"
-    private val suks = arrayOf(0, 1, 5, 10, 20, 30, 40, 60, 80)
-    private val suksRanges  = arrayOf(0.0f..1.0f, 1.0f..5.0f, 5.0f..10.0f, 10.0f..20.0f, 20.0f..30.0f, 30.0f..40.0f, 40.0f..60.0f, 60.0f..80.0f)
+    private val speedScales = arrayOf(0, 1, 5, 10, 20, 30, 40, 60, 80)
+    private val speedRanges = arrayOf(0.0f..1.0f, 1.0f..5.0f, 5.0f..10.0f, 10.0f..20.0f, 20.0f..30.0f, 30.0f..40.0f, 40.0f..60.0f, 60.0f..80.0f)
 
     private val indicatorPath = Path()
 
     private val rectInF = RectF()
     private val rectInDotsF = RectF()
     private val rectOutF = RectF()
-    private val rectSukF = RectF()
+    private val rectSpeedF = RectF()
 
 
     private var strokeWidth: Float = 0.toFloat()
@@ -104,8 +104,8 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
         textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
         textPaint.color = Color.argb(30, 255, 255, 255)
 
-        sukTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
-        sukTextPaint.textSize = Utils.sp2px(resources, 9f)
+        speedTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+        speedTextPaint.textSize = Utils.sp2px(resources, 9f)
 
         indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         indicatorPaint.color = Color.WHITE
@@ -172,7 +172,7 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
         rectInF.set(dp30, dp30, width - dp30, width - dp30)
         rectInDotsF.set(dp30 + strokeWidth, dp30 + strokeWidth, width.toFloat() - dp30 - strokeWidth, width.toFloat() - dp30 - strokeWidth)
         rectOutF.set(strokeWidth / 2.5f, strokeWidth / 2.5f, width - strokeWidth / 2.5f, width - strokeWidth / 2.5f)
-        rectSukF.set(dp30 / 2f, dp30 / 2f, width - dp30 / 2f, width - dp30 / 2f)
+        rectSpeedF.set(dp30 / 2f, dp30 / 2f, width - dp30 / 2f, width - dp30 / 2f)
         gradient = LinearGradient(0f, 0f, rectInF.right, 0f, Color.rgb(234, 27, 27), Color.rgb(108, 251, 1), Shader.TileMode.CLAMP)
         val radius = width / 2f
         val angle = (360 - arcAngle) / 2f
@@ -198,22 +198,22 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         var i = 0f
         var alpha = startAngle
-        while (i < suks.size) {
-            val x = (rectSukF.centerX() + rectSukF.width() / 2f * Math.cos(alpha / 180 * Math.PI)).toFloat() - sukTextPaint.measureText("${suks[i.toInt()]}$METRIC") / 2f
-            val y = (rectSukF.centerY() + rectSukF.width() / 2f * Math.sin(alpha / 180 * Math.PI)).toFloat() + sukTextPaint.descent()
-            sukTextPaint.color = if (Math.round(progress) == suks[i.toInt()]) {
+        while (i < speedScales.size) {
+            val x = (rectSpeedF.centerX() + rectSpeedF.width() / 2f * Math.cos(alpha / 180 * Math.PI)).toFloat() - speedTextPaint.measureText("${speedScales[i.toInt()]}$METRIC") / 2f
+            val y = (rectSpeedF.centerY() + rectSpeedF.width() / 2f * Math.sin(alpha / 180 * Math.PI)).toFloat() + speedTextPaint.descent()
+            speedTextPaint.color = if (Math.round(progress) == speedScales[i.toInt()]) {
                 Color.WHITE
             } else {
                 Color.argb(60, 255, 255, 255)
             }
-            sukTextPaint.typeface = if (Math.round(progress) == suks[i.toInt()]) {
+            speedTextPaint.typeface = if (Math.round(progress) == speedScales[i.toInt()]) {
                 Typeface.DEFAULT_BOLD
             } else {
                 Typeface.DEFAULT
             }
-            canvas.drawText("${suks[i.toInt()]}$METRIC", x, y, sukTextPaint)
+            canvas.drawText("${speedScales[i.toInt()]}$METRIC", x, y, speedTextPaint)
             i++
-            alpha += arcAngle / (suks.size - 1)
+            alpha += arcAngle / (speedScales.size - 1)
         }
 
         //start == 144  arc = 237.6
@@ -239,7 +239,7 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
         canvas.save()
 
         val rangsPosition = findProgressPositionInRange()
-        val kof  = round((29.7 * (rangsPosition + (progress - suksRanges[rangsPosition].start) / (suksRanges[rangsPosition].endInclusive - suksRanges[rangsPosition].start))).toFloat(), 2).toFloat()
+        val kof  = round((29.7 * (rangsPosition + (progress - speedRanges[rangsPosition].start) / (speedRanges[rangsPosition].endInclusive - speedRanges[rangsPosition].start))).toFloat(), 2).toFloat()
         val degrees = startAngle + 90 + kof
 
         canvas.rotate(degrees, rectInF.centerX(), rectInF.centerY())
@@ -248,14 +248,14 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun findProgressPositionInRange(): Int = when(progress) {
-        in suksRanges[0] -> 0
-        in suksRanges[1] -> 1
-        in suksRanges[2] -> 2
-        in suksRanges[3] -> 3
-        in suksRanges[4] -> 4
-        in suksRanges[5] -> 5
-        in suksRanges[6] -> 6
-        in suksRanges[7] -> 7
+        in speedRanges[0] -> 0
+        in speedRanges[1] -> 1
+        in speedRanges[2] -> 2
+        in speedRanges[3] -> 3
+        in speedRanges[4] -> 4
+        in speedRanges[5] -> 5
+        in speedRanges[6] -> 6
+        in speedRanges[7] -> 7
         else -> 0
     }
 
