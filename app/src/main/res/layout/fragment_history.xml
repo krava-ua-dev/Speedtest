@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/main_gradient">
+    tools:background="@drawable/main_gradient"
+    tools:layout_marginTop="24dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/historyListView"
@@ -20,14 +21,17 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="#2a000000"
-        android:elevation="4dp"
         android:orientation="horizontal"
         android:weightSum="4">
 
         <LinearLayout
+            android:id="@+id/sortByDate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/history_sort_selector"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -48,9 +52,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/sortByDownload"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/history_sort_selector"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -71,9 +79,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/sortByUpload"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/history_sort_selector"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -94,9 +106,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/sortByPing"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/history_sort_selector"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -115,6 +131,46 @@
                 android:textColor="#96ffffff"
                 android:textSize="12sp" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/history_sort_container"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="@+id/history_header">
+
+        <ImageView
+            android:id="@+id/sortByDateIcon"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_weight="1"
+            android:src="@drawable/sort_desc" />
+
+        <ImageView
+            android:id="@+id/sortByDownloadIcon"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src="@drawable/sort_desc" />
+
+        <ImageView
+            android:id="@+id/sortByUploadIcon"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src="@drawable/sort_desc" />
+
+        <ImageView
+            android:id="@+id/sortByPingIcon"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src="@drawable/sort_desc" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -153,9 +209,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="#d7ffffff"
             android:text="Your history is empty.\nYou need move to screen with test\nor tap 'MAKE TEST'"
+            android:textColor="#d7ffffff"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/error_title" />

@@ -34,6 +34,77 @@ class HistoryFragment: MvpAppCompatFragment(), HistoryView {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sortByDate.isSelected = true
+        sortByDate.setOnClickListener { onTabClick(R.id.sortByDate) }
+        sortByDownload.setOnClickListener { onTabClick(R.id.sortByDownload) }
+        sortByUpload.setOnClickListener { onTabClick(R.id.sortByUpload) }
+        sortByPing.setOnClickListener { onTabClick(R.id.sortByPing) }
+    }
+
+    private fun onTabClick(viewId: Int) {
+        sortByDate.isSelected = false
+        sortByDownload.isSelected = false
+        sortByUpload.isSelected = false
+        sortByPing.isSelected = false
+        sortByDateIcon.visibility = View.INVISIBLE
+        sortByDownloadIcon.visibility = View.INVISIBLE
+        sortByUploadIcon.visibility = View.INVISIBLE
+        sortByPingIcon.visibility = View.INVISIBLE
+
+        var newSort = HistoryAdapter.SortedTab.DATE
+        var isDesc = true
+        when (viewId) {
+            R.id.sortByDate -> {
+                sortByDate.isSelected = true
+                newSort = HistoryAdapter.SortedTab.DATE
+                isDesc = if (adapter.getCurrentSort() == newSort) {
+                    !adapter.isDesc()
+                } else {
+                    true
+                }
+                sortByDateIcon.setImageResource(if (isDesc) R.drawable.sort_desc else R.drawable.sort_asc)
+                sortByDateIcon.visibility = View.VISIBLE
+            }
+            R.id.sortByDownload -> {
+                sortByDownload.isSelected = true
+                newSort = HistoryAdapter.SortedTab.DOWNLOAD
+                isDesc = if (adapter.getCurrentSort() == newSort) {
+                    !adapter.isDesc()
+                } else {
+                    true
+                }
+                sortByDownloadIcon.setImageResource(if (isDesc) R.drawable.sort_desc else R.drawable.sort_asc)
+                sortByDownloadIcon.visibility = View.VISIBLE
+            }
+            R.id.sortByUpload -> {
+                sortByUpload.isSelected = true
+                newSort = HistoryAdapter.SortedTab.UPLOAD
+                isDesc = if (adapter.getCurrentSort() == newSort) {
+                    !adapter.isDesc()
+                } else {
+                    true
+                }
+                sortByUploadIcon.setImageResource(if (isDesc) R.drawable.sort_desc else R.drawable.sort_asc)
+                sortByUploadIcon.visibility = View.VISIBLE
+            }
+            R.id.sortByPing -> {
+                sortByPing.isSelected = true
+                newSort = HistoryAdapter.SortedTab.PING
+                isDesc = if (adapter.getCurrentSort() == newSort) {
+                    !adapter.isDesc()
+                } else {
+                    true
+                }
+                sortByPingIcon.setImageResource(if (isDesc) R.drawable.sort_desc else R.drawable.sort_asc)
+                sortByPingIcon.visibility = View.VISIBLE
+            }
+        }
+        adapter.sort(newSort, isDesc)
+    }
+
     override fun onHistoryLoaded(history: List<TestEntry>) {
         this.adapter.setHistory(history)
     }

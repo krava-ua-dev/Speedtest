@@ -16,11 +16,45 @@ import java.util.*
  */
 class HistoryAdapter: RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
     private val items = ArrayList<TestEntry>()
+    private var sortBy = SortedTab.DATE
+    private var isDesc = true
 
     fun setHistory(items: List<TestEntry>) {
         this.items.addAll(items)
         notifyDataSetChanged()
     }
+
+    fun sort(by: SortedTab, isDesc: Boolean) {
+        this.sortBy = by
+        this.isDesc = isDesc
+        when(sortBy) {
+            SortedTab.DATE -> if (isDesc) {
+                items.sortByDescending { it.date }
+            } else {
+                items.sortBy { it.date }
+            }
+            SortedTab.DOWNLOAD -> if (isDesc) {
+                items.sortByDescending { it.downloadSpeed }
+            } else {
+                items.sortBy { it.downloadSpeed }
+            }
+            SortedTab.UPLOAD -> if (isDesc) {
+                items.sortByDescending { it.uploadSpeed }
+            } else {
+                items.sortBy { it.uploadSpeed }
+            }
+            SortedTab.PING -> if (isDesc) {
+                items.sortByDescending { it.ping }
+            } else {
+                items.sortBy { it.ping }
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun getCurrentSort() = sortBy
+
+    fun isDesc() = isDesc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         return HistoryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.history_list_item, parent, false))
@@ -31,6 +65,7 @@ class HistoryAdapter: RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
     }
 
     override fun getItemCount() = this.items.size
+
 
 
     class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -51,5 +86,13 @@ class HistoryAdapter: RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
                 itemView.setBackgroundColor(Color.argb(21, 0, 0, 0))
             }
         }
+    }
+
+
+    enum class SortedTab {
+        DATE,
+        DOWNLOAD,
+        UPLOAD,
+        PING;
     }
 }
