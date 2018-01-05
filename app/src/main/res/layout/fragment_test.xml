@@ -4,104 +4,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:background="@drawable/main_gradient">
-
-    <TextView
-        android:id="@+id/title_view"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:includeFontPadding="false"
-        android:textColor="#fff"
-        tools:text="TEST" />
 
     <ua.dev.krava.speedtest.presentation.widget.SpeedometerView
         android:id="@+id/progressView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_view"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         app:arc_progress="0" />
 
-
-    <LinearLayout
-        android:id="@+id/speed_container"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:visibility="invisible"
-        android:layout_below="@id/progressView"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tvSpeedValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="@font/roboto_medium"
-            android:includeFontPadding="false"
-            android:text="0.00"
-            android:textColor="#fff"
-            android:textSize="26sp" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="4dp"
-            android:layout_marginStart="4dp"
-            android:text="MB"
-            android:textColor="#fff" />
-    </LinearLayout>
-
     <LinearLayout
         android:id="@+id/testResultContainer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:visibility="gone"
+        android:layout_below="@id/progressView"
+        android:layout_marginTop="16dp"
         android:animateLayoutChanges="true"
-        android:layout_below="@id/speed_container"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:visibility="gone"
+        android:baselineAligned="false">
+
+        <FrameLayout
+            android:id="@+id/hostContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="bottom"
+                android:includeFontPadding="false"
+                android:text="IP Address"
+                android:textColor="#dcffffff"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/hostValue"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="--"
+                android:textColor="#b5ffffff"
+                android:textSize="13sp" />
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/pingContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_weight="1">
+            android:layout_weight="0.5">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_medium"
-                android:includeFontPadding="false"
                 android:gravity="bottom"
-                android:text="ping"
-                android:textAllCaps="true"
-                android:textColor="#fff"
+                android:includeFontPadding="false"
+                android:text="Ping"
+                android:textColor="#dcffffff"
                 android:textSize="16sp" />
+
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/pingValue"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:includeFontPadding="false"
                 android:gravity="center_vertical"
-                android:text="10 ms"
+                android:includeFontPadding="false"
+                android:text="-- ms"
                 android:textColor="#b5ffffff"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/pingProgressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="1dp"
+                style="@style/AVLoadingIndicatorView.Small"
+                app:indicatorName="BallPulseIndicator" />
         </FrameLayout>
+
         <FrameLayout
-            android:id="@+id/downloadContainer"
+            android:id="@+id/locationContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:layout_weight="1">
 
             <android.support.v7.widget.AppCompatTextView
@@ -109,23 +106,75 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_medium"
-                android:includeFontPadding="false"
                 android:gravity="bottom"
+                android:includeFontPadding="false"
+                android:text="Location"
+                android:textColor="#dcffffff"
+                android:textSize="16sp" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/locationProgressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="1dp"
+                style="@style/AVLoadingIndicatorView.Small"
+                app:indicatorName="BallPulseIndicator" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/locationValue"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="--"
+                android:textColor="#b5ffffff"
+                android:textSize="13sp" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/speedContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/testResultContainer"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="2"
+        android:baselineAligned="false">
+
+        <FrameLayout
+            android:id="@+id/downloadContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="bottom"
+                android:includeFontPadding="false"
                 android:text="download"
                 android:textAllCaps="true"
                 android:textColor="#fff"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
+
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/downloadValue"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:includeFontPadding="false"
                 android:gravity="center_vertical"
-                android:text="50 mb/s"
+                android:includeFontPadding="false"
+                android:text="-- mb/s"
                 android:textColor="#b5ffffff"
                 android:textSize="14sp" />
         </FrameLayout>
+
         <FrameLayout
             android:id="@+id/uploadContainer"
             android:layout_width="0dp"
@@ -138,39 +187,59 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_medium"
-                android:includeFontPadding="false"
                 android:gravity="bottom"
+                android:includeFontPadding="false"
                 android:text="upload"
                 android:textAllCaps="true"
                 android:textColor="#fff"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
+
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/uploadValue"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:includeFontPadding="false"
                 android:gravity="center_vertical"
-                android:text="50 mb/s"
+                android:includeFontPadding="false"
+                android:text="-- mb/s"
                 android:textColor="#b5ffffff"
                 android:textSize="14sp" />
         </FrameLayout>
-
     </LinearLayout>
 
     <TextView
         android:id="@+id/btnStartTest"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_below="@id/speed_container"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/bg_btn_primary"
+        android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:includeFontPadding="false"
         android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:text="start test"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/btnRepeatTest"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_btn_primary"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:visibility="gone"
+        android:includeFontPadding="false"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:text="try again"
         android:textAllCaps="true"
         android:textColor="#fff"
         android:textSize="14sp" />

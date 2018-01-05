@@ -15,6 +15,9 @@ interface ServersDao {
     @Query("SELECT * FROM servers")
     fun getAll(): List<ServerEntity>
 
+    @Query("SELECT * FROM servers WHERE cc = :arg0")
+    fun findByCountryCode(countryCode: String): List<ServerEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(servers: List<ServerEntity>)
 }

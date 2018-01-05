@@ -17,4 +17,5 @@ interface IDataRepository {
 
     fun loadTestHistory(): List<TestEntry>
 
+    fun findServerByCountry(countryCode: String): List<ServerEntity>
 }

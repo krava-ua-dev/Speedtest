@@ -28,6 +28,11 @@ object DataRepositoryImpl: IDataRepository {
         this.db = Room.databaseBuilder(context, AppDatabase::class.java, "db-speedtest").build()
     }
 
+
+    override fun findServerByCountry(countryCode: String): List<ServerEntity> {
+        return db.servers().findByCountryCode(countryCode)
+    }
+
     override fun saveServers(servers: List<ServerEntity>) {
         db.servers().insertAll(servers)
     }
