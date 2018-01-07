@@ -17,20 +17,19 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
     private var currentDisposable: Disposable? = null
 
     fun startTest() {
-        viewState.onCheckServer()
         this.currentTest = TestState()
 
         checkIpInfo()
     }
 
     private fun checkIpInfo() {
+        viewState.onCheckLocation()
         this.currentDisposable = CheckIpInfoUseCase()
                 .execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ ipInfo ->
                     viewState.onLocation(ipInfo.city)
-
                     val myLocation = Location("")
                     myLocation.latitude = ipInfo.lat
                     myLocation.longitude = ipInfo.lon
@@ -66,9 +65,9 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                 .execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    currentTest.downloadSpeed = it.toFloat()
-                    viewState.onDownloadUpdate(it.toFloat())
+                .subscribe({ speed ->
+                    currentTest.downloadSpeed = speed
+                    viewState.onDownloadUpdate(speed)
                 }, {
                     it.printStackTrace()
                 }, {
@@ -83,9 +82,9 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                 .execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    currentTest.uploadSpeed = it.toFloat()
-                    viewState.onUploadUpdate(it.toFloat())
+                .subscribe({ speed ->
+                    currentTest.uploadSpeed = speed
+                    viewState.onUploadUpdate(speed)
                 }, {
                     it.printStackTrace()
                 }, {

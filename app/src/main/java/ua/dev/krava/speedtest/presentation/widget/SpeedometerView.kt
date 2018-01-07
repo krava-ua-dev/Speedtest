@@ -1,5 +1,6 @@
 package ua.dev.krava.speedtest.presentation.widget
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
@@ -42,17 +43,19 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var bottomTextSize: Float = 0.toFloat()
     private var textSize: Float = 0.toFloat()
     private var textColor: Int = 0
-    var progress = 0f
-        set(progress) {
-            if (round(progress, 2).toFloat() != field) {
-                field = if (progress > max) {
-                    max.toFloat()
+    private var progressAnimator: ValueAnimator? = null
+
+    fun setProgress(newProgress: Float) {
+            if (round(newProgress, 2).toFloat() != progress && !(newProgress >= max && progress == max.toFloat())) {
+                if (newProgress > max) {
+                    initProgressAnimator(max.toFloat())
                 } else {
-                    round(progress, 2).toFloat()
+                    initProgressAnimator(round(newProgress, 2).toFloat())
                 }
-                invalidate()
             }
-        }
+    }
+    private var progress = 0f
+
     private var max: Int = 0
         set(max) {
             if (max > 0) {
@@ -73,6 +76,16 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private val default_arc_angle = 360 * 0.66f
     private var default_text_size: Float = 0.toFloat()
     private val min_size: Int
+
+    private fun initProgressAnimator(new: Float) {
+        progressAnimator?.let { if (it.isRunning) it.cancel() }
+        progressAnimator = ValueAnimator.ofFloat(progress, new)
+        progressAnimator?.addUpdateListener {
+            invalidate()
+        }
+        progressAnimator?.duration = 245
+        progressAnimator?.start()
+    }
 
     private val indicatorWidth: Float
         get() = Utils.dp2px(resources, 4f)
@@ -185,6 +198,11 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+        if (progressAnimator != null) {
+            progress = progressAnimator?.animatedValue as Float
+        }
+
         val startAngle = 270 - arcAngle / 2f
 
         paintArcOutLight.color = Color.argb(5, 255, 255, 255)
@@ -215,7 +233,6 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
             i++
             alpha += arcAngle / (speedScales.size - 1)
         }
-
         //start == 144  arc = 237.6
         paintArcIn.shader = gradient
         canvas.drawArc(rectInF, startAngle, 58f, false, paintArcIn)
@@ -291,6 +308,11 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
         var bd = BigDecimal(java.lang.Float.toString(d))
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP)
         return bd
+    }
+
+    override fun onDetachedFromWindow() {
+        progressAnimator?.let { if (it.isRunning) it.cancel() }
+        super.onDetachedFromWindow()
     }
 
     companion object {

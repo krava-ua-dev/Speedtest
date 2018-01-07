@@ -2,7 +2,6 @@ package ua.dev.krava.speedtest.presentation.features.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,13 +24,13 @@ class MainActivity: MvpAppCompatActivity(), MainView {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.tab_test -> {
-                    showFragment(SpeedTestFragment())
+                    showFragment(SpeedTestFragment(), SpeedTestFragment.TAG)
                 }
                 R.id.tab_history -> {
-                    showFragment(HistoryFragment())
+                    showFragment(HistoryFragment(), HistoryFragment.TAG)
                 }
                 R.id.tab_settings -> {
-                    showFragment(SettingsFragment())
+                    showFragment(SettingsFragment(), SettingsFragment.TAG)
                 }
             }
             return@setOnNavigationItemSelectedListener true
@@ -39,19 +38,21 @@ class MainActivity: MvpAppCompatActivity(), MainView {
         presenter.onCreate(ValueSettingsImpl(this))
     }
 
-    private fun showFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commitNow()
+    private fun showFragment(fragment: Fragment, tag:String) {
+        if (supportFragmentManager.findFragmentByTag(tag) == null) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment, tag)
+                    .commitNow()
+        }
     }
 
 
     override fun onStartLoadingServers() {
-        showFragment(FetchServersFragment())
+        showFragment(FetchServersFragment(), FetchServersFragment.TAG)
     }
 
     override fun onServersLoaded() {
-        showFragment(SpeedTestFragment())
+        showFragment(SpeedTestFragment(), SpeedTestFragment.TAG)
         bottom_navigation.animate().translationY(0.0f)
     }
 }

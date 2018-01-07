@@ -1,8 +1,7 @@
 package ua.dev.krava.speedtest.presentation.features.speedtest
 
+import android.animation.Animator
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,49 +64,58 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     }
 
     override fun onDownloadComplete() {
-//        activity?.runOnUiThread {
-//
-//        }
+        downloadValue.animate().scaleX(1.5f).scaleY(1.5f).setListener(object: Animator.AnimatorListener {
+            override fun onAnimationEnd(p0: Animator?) {
+                downloadValue.animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start()
+            }
+            override fun onAnimationRepeat(p0: Animator?) { }
+            override fun onAnimationStart(p0: Animator?) { }
+            override fun onAnimationCancel(p0: Animator?) { }
+        }).start()
     }
 
     override fun onStartUpload() {
-        activity?.runOnUiThread {
-            uploadContainer.visibility = View.VISIBLE
-        }
+        uploadContainer.visibility = View.VISIBLE
     }
 
     override fun onUploadUpdate(progress: Float) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            progressView.progress = progress
-            uploadValue.text = "${progressView.progress}"
+        progressView.postDelayed({
+            progressView.setProgress(progress)
+            uploadValue.text = "$progress"
         }, 16)
     }
 
     override fun onUploadComplete() {
+        uploadValue.animate().scaleX(1.5f).scaleY(1.5f).setListener(object: Animator.AnimatorListener {
+            override fun onAnimationEnd(p0: Animator?) {
+                uploadValue.animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start()
+            }
+            override fun onAnimationRepeat(p0: Animator?) { }
+            override fun onAnimationStart(p0: Animator?) { }
+            override fun onAnimationCancel(p0: Animator?) { }
+        }).start()
         btnRepeatTest.visibility = View.VISIBLE
     }
 
 
     override fun onDownloadUpdate(progress: Float) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            progressView.progress = progress
-            downloadValue.text = "${progressView.progress}"
+        progressView.postDelayed({
+            progressView.setProgress(progress)
+            downloadValue.text = "$progress"
         }, 16)
     }
 
     override fun onCheckLocation() {
-        activity?.runOnUiThread {
-            locationValue.visibility = View.GONE
-            locationProgressIndicator.show()
-        }
+        locationValue.visibility = View.GONE
+        hostValue.visibility = View.GONE
+        hostProgressIndicator.show()
+        locationProgressIndicator.show()
     }
 
     override fun onLocation(city: String) {
-        activity?.runOnUiThread {
-            locationProgressIndicator.hide()
-            locationValue.text = city
-            locationValue.visibility = View.VISIBLE
-        }
+        locationProgressIndicator.hide()
+        locationValue.text = city
+        locationValue.visibility = View.VISIBLE
     }
 
     override fun onCheckServer() {
@@ -115,9 +123,12 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     }
 
     override fun onServerReady(host: String) {
-        activity?.runOnUiThread {
-            hostValue.text = host
-            hostValue.visibility = View.VISIBLE
-        }
+        hostProgressIndicator.hide()
+        hostValue.text = host
+        hostValue.visibility = View.VISIBLE
+    }
+
+    companion object {
+        val TAG = "speed_test"
     }
 }

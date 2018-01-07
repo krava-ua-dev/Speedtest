@@ -5,12 +5,27 @@ import org.json.JSONObject
 /**
  * Created by evheniikravchyna on 05.01.2018.
  */
-class IpInfo(json: JSONObject) {
-    val country = json.getString("country")
-    val cc = json.getString("countryCode")
-    val city = json.getString("city")
-    val region = json.getString("regionName")
-    val lat = json.getDouble("lat")
-    val lon = json.getDouble("lon")
-    val isp = json.getString("isp")
+class IpInfo {
+    lateinit var country: String
+    lateinit var cc: String
+    lateinit var city: String
+    lateinit var region: String
+    lateinit var isp: String
+    var lat: Double = 0.0
+    var lon: Double = 0.0
+
+
+    constructor(json: JSONObject) {
+        country = json.getString("country")
+        cc = json.getString("countryCode")
+        city = json.getString("city")
+        region = json.getString("regionName")
+        lat = json.getDouble("lat")
+        lon = json.getDouble("lon")
+        isp = json.getString("isp")
+    }
+
+    constructor() {
+
+    }
 }

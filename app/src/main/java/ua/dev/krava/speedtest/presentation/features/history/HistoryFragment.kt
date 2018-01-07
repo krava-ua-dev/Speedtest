@@ -116,4 +116,8 @@ class HistoryFragment: MvpAppCompatFragment(), HistoryView {
     override fun onLoadingError() {
 
     }
+
+    companion object {
+        val TAG = "history"
+    }
 }

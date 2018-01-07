@@ -7,13 +7,14 @@ import fr.bmartel.speedtest.inter.ISpeedTestListener
 import fr.bmartel.speedtest.model.SpeedTestError
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import ua.dev.krava.speedtest.domain.utils.MathUtils
 
 /**
  * Created by evheniikravchyna on 05.01.2018.
  */
 class DownloadTestUseCase(private val url: String) {
 
-    fun execute(): Flowable<Double> {
+    fun execute(): Flowable<Float> {
         val socket = SpeedTestSocket()
         return Flowable.create({
             socket.addSpeedTestListener(object : ISpeedTestListener {
@@ -35,11 +36,14 @@ class DownloadTestUseCase(private val url: String) {
                 override fun onProgress(percent: Float, report: SpeedTestReport) {
                     if (!it.isCancelled) {
                         val speed = report.transferRateBit.toDouble() / 1048576
-                        it.onNext(speed)
+                        it.onNext(MathUtils.round(speed.toFloat(), 2))
+                    } else {
+                        socket.closeSocket()
+                        socket.clearListeners()
                     }
                 }
             })
-            socket.startFixedDownload(url.replace("upload.php", "random3000x3000.jpg"), 15000, 100)
+            socket.startFixedDownload(url.replace("upload.php", "random3000x3000.jpg"), 15000, 250)
         }, BackpressureStrategy.MISSING)
     }
 }

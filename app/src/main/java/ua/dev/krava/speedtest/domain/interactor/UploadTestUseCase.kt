@@ -9,6 +9,7 @@ import fr.bmartel.speedtest.model.SpeedTestError
 import fr.bmartel.speedtest.model.UploadStorageType
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import ua.dev.krava.speedtest.domain.utils.MathUtils
 
 
 /**
@@ -16,7 +17,7 @@ import io.reactivex.Flowable
  */
 class UploadTestUseCase(private val url: String) {
 
-    fun execute(): Flowable<Double> {
+    fun execute(): Flowable<Float> {
         val socket = SpeedTestSocket()
         socket.uploadStorageType = UploadStorageType.FILE_STORAGE
         return Flowable.create({
@@ -28,16 +29,10 @@ class UploadTestUseCase(private val url: String) {
 
                     if (!it.isCancelled) it.onError(Throwable(errorMessage))
                 }
-
-                override fun onCompletion(report: SpeedTestReport?) {
-
-                }
-
-                override fun onProgress(percent: Float, report: SpeedTestReport) {
-
-                }
+                override fun onCompletion(report: SpeedTestReport?) { }
+                override fun onProgress(percent: Float, report: SpeedTestReport) { }
             })
-            socket.startUploadRepeat (url, 15000, 200, 1000000,object: IRepeatListener {
+            socket.startUploadRepeat (url, 15000, 240, 1000000,object: IRepeatListener {
                 override fun onCompletion(report: SpeedTestReport?) {
                     socket.closeSocket()
                     socket.clearListeners()
@@ -48,8 +43,10 @@ class UploadTestUseCase(private val url: String) {
                 override fun onReport(report: SpeedTestReport) {
                     if (!it.isCancelled) {
                         val speed = report.transferRateBit.toDouble() / 1048576
-                        Log.e("Main", "upload speed: $speed")
-                        it.onNext(speed)
+                        it.onNext(MathUtils.round(speed.toFloat(), 2))
+                    } else {
+                        socket.closeSocket()
+                        socket.clearListeners()
                     }
                 }
             })

@@ -18,4 +18,8 @@ class SettingsFragment: MvpAppCompatFragment() {
 
         return view
     }
+
+    companion object {
+        val TAG = "settings"
+    }
 }

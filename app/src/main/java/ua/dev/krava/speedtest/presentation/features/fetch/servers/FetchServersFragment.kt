@@ -26,4 +26,9 @@ class FetchServersFragment: Fragment() {
         loadingServersIndicator.hide()
         super.onDestroyView()
     }
+
+
+    companion object {
+        val TAG = "fetch_servers"
+    }
 }

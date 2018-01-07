@@ -20,26 +20,27 @@
     <LinearLayout
         android:id="@+id/testResultContainer"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/progressView"
         android:layout_marginTop="16dp"
         android:animateLayoutChanges="true"
-        android:weightSum="3"
         android:visibility="gone"
+        android:weightSum="3"
         android:baselineAligned="false">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/hostContainer"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1.3">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_medium"
-                android:gravity="bottom"
+                android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="IP Address"
                 android:textColor="#dcffffff"
@@ -49,18 +50,29 @@
                 android:id="@+id/hostValue"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="--"
                 android:textColor="#b5ffffff"
                 android:textSize="13sp" />
-        </FrameLayout>
 
-        <FrameLayout
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/hostProgressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="1dp"
+                style="@style/AVLoadingIndicatorView.Small"
+                app:indicatorName="BallPulseIndicator" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/pingContainer"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_weight="0.5">
 
             <android.support.v7.widget.AppCompatTextView
@@ -68,7 +80,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_medium"
-                android:gravity="bottom"
+                android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="Ping"
                 android:textColor="#dcffffff"
@@ -79,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="-- ms"
                 android:textColor="#b5ffffff"
@@ -93,24 +105,38 @@
                 android:layout_marginTop="1dp"
                 style="@style/AVLoadingIndicatorView.Small"
                 app:indicatorName="BallPulseIndicator" />
-        </FrameLayout>
+        </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/locationContainer"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1.2">
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_medium"
-                android:gravity="bottom"
+                android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="Location"
                 android:textColor="#dcffffff"
                 android:textSize="16sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/locationValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="24dp"
+                android:layout_gravity="center_horizontal"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="--"
+                android:textColor="#b5ffffff"
+                android:textSize="13sp" />
 
             <com.wang.avi.AVLoadingIndicatorView
                 android:id="@+id/locationProgressIndicator"
@@ -121,17 +147,7 @@
                 android:layout_marginTop="1dp"
                 style="@style/AVLoadingIndicatorView.Small"
                 app:indicatorName="BallPulseIndicator" />
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/locationValue"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:text="--"
-                android:textColor="#b5ffffff"
-                android:textSize="13sp" />
-        </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -139,7 +155,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/testResultContainer"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:visibility="gone"
         android:weightSum="2"
@@ -170,7 +186,7 @@
                 android:layout_gravity="center_horizontal|bottom"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
-                android:text="-- mb/s"
+                android:text="0.0"
                 android:textColor="#b5ffffff"
                 android:textSize="14sp" />
         </FrameLayout>
@@ -201,7 +217,7 @@
                 android:layout_gravity="center_horizontal|bottom"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
-                android:text="-- mb/s"
+                android:text="0.0"
                 android:textColor="#b5ffffff"
                 android:textSize="14sp" />
         </FrameLayout>
