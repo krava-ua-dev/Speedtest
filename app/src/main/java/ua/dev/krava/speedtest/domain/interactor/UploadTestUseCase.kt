@@ -32,7 +32,7 @@ class UploadTestUseCase(private val url: String) {
                 override fun onCompletion(report: SpeedTestReport?) { }
                 override fun onProgress(percent: Float, report: SpeedTestReport) { }
             })
-            socket.startUploadRepeat (url, 15000, 240, 1000000,object: IRepeatListener {
+            socket.startUploadRepeat (url, 13000, 240, 900000, object: IRepeatListener {
                 override fun onCompletion(report: SpeedTestReport?) {
                     socket.closeSocket()
                     socket.clearListeners()

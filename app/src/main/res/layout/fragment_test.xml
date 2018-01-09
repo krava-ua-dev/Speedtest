@@ -93,7 +93,7 @@
                 android:layout_gravity="center_horizontal|bottom"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="-- ms"
+                android:text="--"
                 android:textColor="#b5ffffff"
                 android:textSize="13sp" />
             <com.wang.avi.AVLoadingIndicatorView
@@ -168,6 +168,7 @@
             android:layout_weight="1">
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/downloadSpeedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
@@ -199,6 +200,7 @@
             android:layout_weight="1">
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/uploadSpeedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"

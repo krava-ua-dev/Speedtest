@@ -20,6 +20,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     private lateinit var btnStartTest: View
     private lateinit var btnRepeatTest: View
     private lateinit var progressView: SpeedometerView
+    private var flickerAnimation: FlickerAnimation? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,10 +61,14 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     }
 
     override fun onStartDownload() {
+        flickerAnimation?.cancel()
+        flickerAnimation = FlickerAnimation(downloadSpeedTitle)
         downloadContainer.visibility = View.VISIBLE
+        flickerAnimation?.start()
     }
 
     override fun onDownloadComplete() {
+        flickerAnimation?.cancel()
         downloadValue.animate().scaleX(1.5f).scaleY(1.5f).setListener(object: Animator.AnimatorListener {
             override fun onAnimationEnd(p0: Animator?) {
                 downloadValue.animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start()
@@ -75,7 +80,9 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     }
 
     override fun onStartUpload() {
+        flickerAnimation = FlickerAnimation(uploadSpeedTitle)
         uploadContainer.visibility = View.VISIBLE
+        flickerAnimation?.start()
     }
 
     override fun onUploadUpdate(progress: Float) {
@@ -86,6 +93,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     }
 
     override fun onUploadComplete() {
+        flickerAnimation?.cancel()
         uploadValue.animate().scaleX(1.5f).scaleY(1.5f).setListener(object: Animator.AnimatorListener {
             override fun onAnimationEnd(p0: Animator?) {
                 uploadValue.animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start()
