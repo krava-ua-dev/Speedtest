@@ -3,6 +3,7 @@ package ua.dev.krava.speedtest.presentation.features.main
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import ua.dev.krava.speedtest.data.repository.DataRepositoryImpl
 import ua.dev.krava.speedtest.domain.preferences.ValueSettings
@@ -13,13 +14,14 @@ import ua.dev.krava.speedtest.domain.preferences.ValueSettings
 @InjectViewState
 class MainPresenter: MvpPresenter<MainView>() {
     private lateinit var valueSettings: ValueSettings
+    private var loadingTask: Disposable? = null
 
     fun onCreate(valueSettings: ValueSettings) {
         this.valueSettings = valueSettings
 
         if (valueSettings.needLoadServers()) {
             viewState.onStartLoadingServers()
-            DataRepositoryImpl.loadServers()
+            this.loadingTask = DataRepositoryImpl.loadServers()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ isSuccess ->
@@ -31,5 +33,12 @@ class MainPresenter: MvpPresenter<MainView>() {
         } else {
             viewState.onServersLoaded()
         }
+    }
+
+    override fun onDestroy() {
+        this.loadingTask?.let {
+            if (!it.isDisposed) it.dispose()
+        }
+        super.onDestroy()
     }
 }

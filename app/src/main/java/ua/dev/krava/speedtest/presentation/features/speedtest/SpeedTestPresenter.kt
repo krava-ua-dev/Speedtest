@@ -6,6 +6,7 @@ import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import ua.dev.krava.speedtest.data.repository.DataRepositoryImpl
 import ua.dev.krava.speedtest.domain.interactor.*
 
 /**
@@ -24,8 +25,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
 
     private fun checkIpInfo() {
         viewState.onCheckLocation()
-        this.currentDisposable = CheckIpInfoUseCase()
-                .execute()
+        this.currentDisposable = DataRepositoryImpl.checkIpInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ ipInfo ->

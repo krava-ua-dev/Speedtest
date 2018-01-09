@@ -13,7 +13,7 @@ class CheckPingUserCase(private val host: String) {
         return Observable.create({
             val runtime = Runtime.getRuntime()
             val cmd = "ping -c 4 -w 8 $host"
-            Log.e("SpeedTest", "terminal -> $cmd")
+            Log.d("SpeedTest", "terminal -> $cmd")
             val proc = runtime.exec(cmd)
             proc.waitFor()
             val exitValue = proc.exitValue()

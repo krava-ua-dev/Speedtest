@@ -11,7 +11,10 @@ import ua.dev.krava.speedtest.data.repository.database.AppDatabase
 import android.arch.persistence.room.Room
 import android.content.Context
 import io.reactivex.Observable
+import org.json.JSONObject
+import ua.dev.krava.speedtest.data.model.IpInfo
 import ua.dev.krava.speedtest.presentation.model.TestEntry
+import ua.dev.krava.speedtest.presentation.utils.readTextAndClose
 import java.io.IOException
 import java.util.ArrayList
 
@@ -20,6 +23,7 @@ import java.util.ArrayList
  * Created by evheniikravchyna on 03.01.2018.
  */
 object DataRepositoryImpl: IDataRepository {
+    private val IP_INFO = "http://ip-api.com/json"
     private val SERVERS_LIST_URL = "http://www.speedtest.net/speedtest-servers.php"
     private lateinit var db: AppDatabase
 
@@ -43,6 +47,19 @@ object DataRepositoryImpl: IDataRepository {
 
     override fun saveTest(test: TestEntry) {
         db.history().insert(test.toEntity())
+    }
+
+    override fun checkIpInfo(): Observable<IpInfo> {
+        return Observable.create({
+            val ipResponse = OkHttpClient().makeCall(IP_INFO)
+            if (ipResponse.isSuccessful) try {
+                val responseString = ipResponse.body()?.byteStream()?.readTextAndClose()
+                it.onNext(IpInfo(JSONObject(responseString)))
+                it.onComplete()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
     }
 
     override fun loadServers(): Observable<Boolean> {
