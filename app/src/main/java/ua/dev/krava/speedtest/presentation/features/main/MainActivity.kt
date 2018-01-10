@@ -8,11 +8,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ua.dev.krava.speedtest.R
 import ua.dev.krava.speedtest.domain.preferences.ValueSettingsImpl
 import ua.dev.krava.speedtest.presentation.features.fetch.servers.FetchServersFragment
+import ua.dev.krava.speedtest.presentation.features.fetch.servers.IReloadingServers
 import ua.dev.krava.speedtest.presentation.features.history.HistoryFragment
 import ua.dev.krava.speedtest.presentation.features.settings.SettingsFragment
 import ua.dev.krava.speedtest.presentation.features.speedtest.SpeedTestFragment
 
-class MainActivity: MvpAppCompatActivity(), MainView {
+class MainActivity: MvpAppCompatActivity(), MainView, IReloadingServers {
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
@@ -38,17 +39,26 @@ class MainActivity: MvpAppCompatActivity(), MainView {
         presenter.onCreate(ValueSettingsImpl(this))
     }
 
-    private fun showFragment(fragment: Fragment, tag:String) {
-        if (supportFragmentManager.findFragmentByTag(tag) == null) {
+    private fun showFragment(fragment: Fragment, tag:String, force: Boolean = false) {
+        if (supportFragmentManager.findFragmentByTag(tag) == null || force) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment, tag)
                     .commitNow()
         }
     }
 
+    override fun onReloadServers() {
+        this.presenter.loadServers()
+    }
+
+
+    override fun onServersLoadingError() {
+        showFragment(FetchServersFragment.getInstance(false), FetchServersFragment.TAG, true)
+    }
+
 
     override fun onStartLoadingServers() {
-        showFragment(FetchServersFragment(), FetchServersFragment.TAG)
+        showFragment(FetchServersFragment.getInstance(false), FetchServersFragment.TAG, true)
     }
 
     override fun onServersLoaded() {

@@ -4,5 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+
+    <color name="colorFirst">#37138D</color>
+    <color name="colorSecond">#6a0c79</color>
+
+
     <color name="selectedHistoryTab">#2a000000</color>
 </resources>

@@ -228,19 +228,20 @@
     <TextView
         android:id="@+id/btnStartTest"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_btn_primary"
-        android:foreground="?attr/selectableItemBackground"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/bg_btn_start_selector"
         android:gravity="center"
+        android:elevation="3dp"
         android:includeFontPadding="false"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
+        android:paddingEnd="40dp"
+        android:paddingStart="40dp"
         android:text="start test"
         android:textAllCaps="true"
-        android:textColor="#fff"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="#A500C0"
         android:textSize="14sp" />
 
     <TextView

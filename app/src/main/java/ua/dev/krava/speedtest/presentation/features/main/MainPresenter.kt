@@ -20,19 +20,25 @@ class MainPresenter: MvpPresenter<MainView>() {
         this.valueSettings = valueSettings
 
         if (valueSettings.needLoadServers()) {
-            viewState.onStartLoadingServers()
-            this.loadingTask = DataRepositoryImpl.loadServers()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ isSuccess ->
-                        if (isSuccess) {
-                            valueSettings.serversLoadedAt(System.currentTimeMillis())
-                            viewState.onServersLoaded()
-                        }
-                    }, { throwable -> throwable.printStackTrace() })
+            loadServers()
         } else {
             viewState.onServersLoaded()
         }
+    }
+
+    fun loadServers() {
+        viewState.onStartLoadingServers()
+        this.loadingTask = DataRepositoryImpl.loadServers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ isSuccess ->
+                    if (isSuccess) {
+                        valueSettings.serversLoadedAt(System.currentTimeMillis())
+                        viewState.onServersLoaded()
+                    }
+                }, {
+                    viewState.onServersLoadingError()
+                })
     }
 
     override fun onDestroy() {

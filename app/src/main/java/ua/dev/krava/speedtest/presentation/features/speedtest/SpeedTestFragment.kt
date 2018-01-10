@@ -36,6 +36,10 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         btnRepeatTest.setOnClickListener {
             btnRepeatTest.visibility = View.GONE
             speedContainer.visibility = View.GONE
+            uploadContainer.visibility = View.GONE
+            uploadValue.text = "0.0"
+            downloadValue.text = "0.0"
+            pingValue.text = "--"
             presenter.startTest()
         }
         return view

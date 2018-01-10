@@ -15,7 +15,7 @@ class DownloadTestUseCase(private val url: String) {
     fun execute(): Flowable<Float> {
         val socket = SpeedTestSocket()
         return Flowable.create({
-            socket.startDownloadRepeat(url.replace("upload.php", "random3000x3000.jpg"), 13000, 250, object: IRepeatListener {
+            socket.startDownloadRepeat(url.replace("upload.php", "random3000x3000.jpg"), 10000, 250, object: IRepeatListener {
                 override fun onCompletion(report: SpeedTestReport?) {
                     socket.closeSocket()
                     socket.clearListeners()
