@@ -252,7 +252,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
         android:background="@drawable/bg_btn_primary"
-        android:foreground="?attr/selectableItemBackground"
+        android:elevation="3dp"
         android:gravity="center"
         android:visibility="gone"
         android:includeFontPadding="false"
