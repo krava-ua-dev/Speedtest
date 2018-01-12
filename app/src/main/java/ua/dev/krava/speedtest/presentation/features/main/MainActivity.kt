@@ -10,7 +10,6 @@ import ua.dev.krava.speedtest.domain.preferences.ValueSettingsImpl
 import ua.dev.krava.speedtest.presentation.features.fetch.servers.FetchServersFragment
 import ua.dev.krava.speedtest.presentation.features.fetch.servers.IReloadingServers
 import ua.dev.krava.speedtest.presentation.features.history.HistoryFragment
-import ua.dev.krava.speedtest.presentation.features.settings.SettingsFragment
 import ua.dev.krava.speedtest.presentation.features.speedtest.SpeedTestFragment
 
 class MainActivity: MvpAppCompatActivity(), MainView, IReloadingServers {
@@ -29,9 +28,6 @@ class MainActivity: MvpAppCompatActivity(), MainView, IReloadingServers {
                 }
                 R.id.tab_history -> {
                     showFragment(HistoryFragment(), HistoryFragment.TAG)
-                }
-                R.id.tab_settings -> {
-                    showFragment(SettingsFragment(), SettingsFragment.TAG)
                 }
             }
             return@setOnNavigationItemSelectedListener true
@@ -53,7 +49,7 @@ class MainActivity: MvpAppCompatActivity(), MainView, IReloadingServers {
 
 
     override fun onServersLoadingError() {
-        showFragment(FetchServersFragment.getInstance(false), FetchServersFragment.TAG, true)
+        showFragment(FetchServersFragment.getInstance(true), FetchServersFragment.TAG, true)
     }
 
 

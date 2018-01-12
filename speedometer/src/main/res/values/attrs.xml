@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SpeedometerView">
+        <attr name="spd_progress" format="integer"/>
+        <attr name="spd_angle" format="float"/>
+        <attr name="spd_stroke_width" format="dimension"/>
+        <attr name="spd_max" format="integer"/>
+
+        <attr name="spd_text_size" format="dimension"/>
+        <attr name="spd_text_color" format="color"/>
+
+        <attr name="spd_suffix_text" format="string"/>
+        <attr name="spd_suffix_text_size" format="dimension"/>
+        <attr name="spd_suffix_text_padding" format="dimension"/>
+
+        <attr name="spd_bottom_text" format="string"/>
+        <attr name="spd_bottom_text_size" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="Themes">
+        <attr name="spdProgressStyle" format="reference"/>
+    </declare-styleable>
+</resources>

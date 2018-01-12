@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_test.*
+import org.krava.speedometer.SpeedometerView
 import ua.dev.krava.speedtest.R
-import ua.dev.krava.speedtest.presentation.widget.SpeedometerView
 
 /**
  * Created by evheniikravchyna on 01.01.2018.

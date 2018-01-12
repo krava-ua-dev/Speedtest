@@ -1,4 +1,4 @@
-package ua.dev.krava.speedtest.presentation.widget
+package org.krava.speedometer
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -9,8 +9,8 @@ import android.os.Parcelable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
-import ua.dev.krava.speedtest.R
-import ua.dev.krava.speedtest.presentation.utils.Utils
+import org.krava.speedometer.R
+import org.krava.speedometer.Utils
 import java.math.BigDecimal
 
 
@@ -154,14 +154,14 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun initByAttributes(attributes: TypedArray) {
-        textColor = attributes.getColor(R.styleable.SpeedometerView_arc_text_color, default_text_color)
-        textSize = attributes.getDimension(R.styleable.SpeedometerView_arc_text_size, default_text_size)
-        arcAngle = attributes.getFloat(R.styleable.SpeedometerView_arc_angle, default_arc_angle)
-        max = attributes.getInt(R.styleable.SpeedometerView_arc_max, default_max)
-        progress = attributes.getFloat(R.styleable.SpeedometerView_arc_progress, 0f)
-        strokeWidth = attributes.getDimension(R.styleable.SpeedometerView_arc_stroke_width, default_stroke_width)
-        suffixTextPadding = attributes.getDimension(R.styleable.SpeedometerView_arc_suffix_text_padding, default_suffix_padding)
-        bottomTextSize = attributes.getDimension(R.styleable.SpeedometerView_arc_bottom_text_size, default_bottom_text_size)
+        textColor = attributes.getColor(R.styleable.SpeedometerView_spd_text_color, default_text_color)
+        textSize = attributes.getDimension(R.styleable.SpeedometerView_spd_text_size, default_text_size)
+        arcAngle = attributes.getFloat(R.styleable.SpeedometerView_spd_angle, default_arc_angle)
+        max = attributes.getInt(R.styleable.SpeedometerView_spd_max, default_max)
+        progress = attributes.getFloat(R.styleable.SpeedometerView_spd_progress, 0f)
+        strokeWidth = attributes.getDimension(R.styleable.SpeedometerView_spd_stroke_width, default_stroke_width)
+        suffixTextPadding = attributes.getDimension(R.styleable.SpeedometerView_spd_suffix_text_padding, default_suffix_padding)
+        bottomTextSize = attributes.getDimension(R.styleable.SpeedometerView_spd_bottom_text_size, default_bottom_text_size)
 
         dp30 = Utils.dp2px(resources, 30f) + strokeWidth
         dp16 = Utils.dp2px(resources, 16f)

@@ -1,4 +1,4 @@
-package ua.dev.krava.speedtest.presentation.utils
+package org.krava.speedometer
 
 import android.content.res.Resources
 

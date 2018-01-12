@@ -33,13 +33,13 @@ class FetchServersFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (isError) {
-            loadingContainer.visibility = View.VISIBLE
-            loadingServersIndicator.smoothToShow()
-        } else {
             errorContainer.visibility = View.VISIBLE
             btnTryAgain.setOnClickListener {
                 reloadInterface?.onReloadServers()
             }
+        } else {
+            loadingContainer.visibility = View.VISIBLE
+            loadingServersIndicator.smoothToShow()
         }
     }
 

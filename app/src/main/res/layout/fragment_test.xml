@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     tools:background="@drawable/main_gradient">
 
-    <ua.dev.krava.speedtest.presentation.widget.SpeedometerView
+    <org.krava.speedometer.SpeedometerView
         android:id="@+id/progressView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
-        app:arc_progress="0" />
+        app:spd_angle="280"
+        app:spd_progress="0" />
 
     <LinearLayout
         android:id="@+id/testResultContainer"
@@ -242,7 +243,7 @@
         android:textAllCaps="true"
         android:fontFamily="@font/roboto_medium"
         android:textColor="#A500C0"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/btnRepeatTest"
@@ -250,17 +251,18 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/roboto_medium"
         android:background="@drawable/bg_btn_primary"
         android:elevation="3dp"
         android:gravity="center"
         android:visibility="gone"
         android:includeFontPadding="false"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:text="try again"
+        android:paddingEnd="40dp"
+        android:paddingStart="40dp"
+        android:text="again"
         android:textAllCaps="true"
         android:textColor="#fff"
-        android:textSize="14sp" />
+        android:textSize="15sp" />
 
 </RelativeLayout>

@@ -7,8 +7,4 @@
     <item android:id="@+id/tab_history"
         android:title="History"
         android:icon="@drawable/history"/>
-
-    <item android:id="@+id/tab_settings"
-        android:title="Settings"
-        android:icon="@drawable/settings"/>
 </menu>
