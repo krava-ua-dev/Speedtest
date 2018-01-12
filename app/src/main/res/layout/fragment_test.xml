@@ -15,7 +15,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
-        app:spd_angle="280"
         app:spd_progress="0" />
 
     <LinearLayout
