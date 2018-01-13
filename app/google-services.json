@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "251799931549",
+    "firebase_url": "https://speedtest-ac7be.firebaseio.com",
+    "project_id": "speedtest-ac7be",
+    "storage_bucket": "speedtest-ac7be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251799931549:android:2041e64239cddd8d",
+        "android_client_info": {
+          "package_name": "ua.dev.krava.speedtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251799931549-minv8po3k0ei0kanfea9nqa9ukt1vnvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ua.dev.krava.speedtest",
+            "certificate_hash": "6c30cdb736a5ba95cc4e86d774e45b4290585081"
+          }
+        },
+        {
+          "client_id": "251799931549-g05sdv6oum89na29i51gs03nl3v6sr5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxXnzY695JHVU6k1NNOCeaS7qGWTyPWP0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251799931549-g05sdv6oum89na29i51gs03nl3v6sr5h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

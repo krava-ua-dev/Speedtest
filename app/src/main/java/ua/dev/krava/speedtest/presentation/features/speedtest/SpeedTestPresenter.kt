@@ -21,6 +21,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
 
     fun onViewCreated() {
         if (autoStartTest) {
+            autoStartTest = false
             startTest()
         } else {
             viewState.showDefaultState()
