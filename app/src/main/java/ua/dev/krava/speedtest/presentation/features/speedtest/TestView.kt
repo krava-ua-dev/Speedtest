@@ -6,6 +6,9 @@ import com.arellomobile.mvp.MvpView
  * Created by evheniikravchyna on 02.01.2018.
  */
 interface TestView: MvpView {
+    fun onTestStarted()
+    fun showDefaultState()
+
     fun onCheckLocation()
     fun onLocation(city: String)
 

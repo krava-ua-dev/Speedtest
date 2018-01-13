@@ -16,10 +16,20 @@ import ua.dev.krava.speedtest.domain.interactor.*
 class SpeedTestPresenter: MvpPresenter<TestView>() {
     private lateinit var currentTest: TestState
     private var currentDisposable: Disposable? = null
+    var autoStartTest = false
+
+
+    fun onViewCreated() {
+        if (autoStartTest) {
+            startTest()
+        } else {
+            viewState.showDefaultState()
+        }
+    }
 
     fun startTest() {
+        this.viewState.onTestStarted()
         this.currentTest = TestState()
-
         checkIpInfo()
     }
 

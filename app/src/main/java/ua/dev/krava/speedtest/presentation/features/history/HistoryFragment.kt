@@ -10,6 +10,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_history.*
 import ua.dev.krava.speedtest.R
+import ua.dev.krava.speedtest.presentation.features.main.IFastStartTest
 import ua.dev.krava.speedtest.presentation.model.TestEntry
 
 /**
@@ -111,6 +112,11 @@ class HistoryFragment: MvpAppCompatFragment(), HistoryView {
 
     override fun onHistoryEmpty() {
         emptyHistoryContainer.visibility = View.VISIBLE
+        btnStartTest.setOnClickListener {
+            if (activity is IFastStartTest) {
+                (activity as IFastStartTest).onFastStart()
+            }
+        }
     }
 
     override fun onLoadingError() {

@@ -235,6 +235,7 @@
         android:background="@drawable/bg_btn_start_selector"
         android:gravity="center"
         android:elevation="3dp"
+        android:visibility="gone"
         android:includeFontPadding="false"
         android:paddingEnd="40dp"
         android:paddingStart="40dp"

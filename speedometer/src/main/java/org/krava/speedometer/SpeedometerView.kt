@@ -9,8 +9,6 @@ import android.os.Parcelable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
-import org.krava.speedometer.R
-import org.krava.speedometer.Utils
 import java.math.BigDecimal
 
 

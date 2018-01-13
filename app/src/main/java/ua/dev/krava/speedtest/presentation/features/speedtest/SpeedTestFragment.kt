@@ -23,14 +23,20 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     private var flickerAnimation: FlickerAnimation? = null
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            presenter.autoStartTest = it.getBoolean("auto_start", false)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_test, container, false)
         progressView = view.findViewById(R.id.progressView)
         btnStartTest = view.findViewById(R.id.btnStartTest)
         btnRepeatTest = view.findViewById(R.id.btnRepeatTest)
         btnStartTest.setOnClickListener {
-            btnStartTest.visibility = View.GONE
-            testResultContainer.visibility = View.VISIBLE
             presenter.startTest()
         }
         btnRepeatTest.setOnClickListener {
@@ -43,6 +49,21 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
             presenter.startTest()
         }
         return view
+    }
+
+    override fun showDefaultState() {
+        btnStartTest.visibility = View.VISIBLE
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        presenter.onViewCreated()
+    }
+
+    override fun onTestStarted() {
+        btnStartTest.visibility = View.GONE
+        testResultContainer.visibility = View.VISIBLE
     }
 
     override fun onPingSuccess(timeMS: Int) {
@@ -142,5 +163,13 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
 
     companion object {
         val TAG = "speed_test"
+
+        fun instance(isAutoStart: Boolean = false): SpeedTestFragment {
+            val instance = SpeedTestFragment()
+            instance.arguments = Bundle()
+            instance.arguments?.putBoolean("auto_start", isAutoStart)
+
+            return instance
+        }
     }
 }

@@ -223,6 +223,7 @@
             android:layout_marginBottom="36dp"
             android:background="@drawable/bg_btn_primary"
             android:gravity="center"
+            android:elevation="3dp"
             android:includeFontPadding="false"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"

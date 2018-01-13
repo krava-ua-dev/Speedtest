@@ -19,10 +19,14 @@ class MainPresenter: MvpPresenter<MainView>() {
     fun onCreate(valueSettings: ValueSettings) {
         this.valueSettings = valueSettings
 
+        checkServers()
+    }
+
+    private fun checkServers(autoStartTest: Boolean = false) {
         if (valueSettings.needLoadServers()) {
             loadServers()
         } else {
-            viewState.onServersLoaded()
+            viewState.onServersLoaded(autoStartTest)
         }
     }
 
@@ -39,6 +43,10 @@ class MainPresenter: MvpPresenter<MainView>() {
                 }, {
                     viewState.onServersLoadingError()
                 })
+    }
+
+    fun onFastStartSpeedtest() {
+        checkServers(true)
     }
 
     override fun onDestroy() {
