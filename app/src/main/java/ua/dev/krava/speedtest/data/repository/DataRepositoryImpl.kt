@@ -1,30 +1,28 @@
 package ua.dev.krava.speedtest.data.repository
 
-import okhttp3.OkHttpClient
-import org.jetbrains.anko.coroutines.experimental.bg
-import org.xmlpull.v1.XmlPullParser
-import ua.dev.krava.speedtest.data.model.ServerEntity
-import ua.dev.krava.speedtest.data.utils.makeCall
-import ua.dev.krava.speedtest.domain.repository.IDataRepository
-import ua.dev.krava.speedtest.presentation.utils.createXmlParser
-import ua.dev.krava.speedtest.data.repository.database.AppDatabase
 import android.arch.persistence.room.Room
 import android.content.Context
 import io.reactivex.Observable
+import okhttp3.OkHttpClient
 import org.json.JSONObject
+import org.xmlpull.v1.XmlPullParser
+import ua.dev.krava.speedtest.BuildConfig
 import ua.dev.krava.speedtest.data.model.IpInfo
+import ua.dev.krava.speedtest.data.model.ServerEntity
+import ua.dev.krava.speedtest.data.repository.database.AppDatabase
+import ua.dev.krava.speedtest.data.utils.makeCall
+import ua.dev.krava.speedtest.domain.repository.IDataRepository
 import ua.dev.krava.speedtest.presentation.model.TestEntry
+import ua.dev.krava.speedtest.presentation.utils.createXmlParser
 import ua.dev.krava.speedtest.presentation.utils.readTextAndClose
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 
 /**
  * Created by evheniikravchyna on 03.01.2018.
  */
 object DataRepositoryImpl: IDataRepository {
-    private val IP_INFO = "http://ip-api.com/json"
-    private val SERVERS_LIST_URL = "http://www.speedtest.net/speedtest-servers.php"
     private lateinit var db: AppDatabase
 
 
@@ -51,7 +49,7 @@ object DataRepositoryImpl: IDataRepository {
 
     override fun checkIpInfo(): Observable<IpInfo> {
         return Observable.create({
-            val ipResponse = OkHttpClient().makeCall(IP_INFO)
+            val ipResponse = OkHttpClient().makeCall(BuildConfig.IP_INFO_URL)
             if (ipResponse.isSuccessful) try {
                 val responseString = ipResponse.body()?.byteStream()?.readTextAndClose()
                 it.onNext(IpInfo(JSONObject(responseString)))
@@ -65,7 +63,7 @@ object DataRepositoryImpl: IDataRepository {
     override fun loadServers(): Observable<Boolean> {
         return Observable.create<Boolean> { emitter ->
             try {
-                val response = OkHttpClient().makeCall(SERVERS_LIST_URL)
+                val response = OkHttpClient().makeCall(BuildConfig.SERVERS_LIST_URL)
                 if (response.isSuccessful) {
                     val bodyStream = response.body()?.byteStream()
                     bodyStream?.use {

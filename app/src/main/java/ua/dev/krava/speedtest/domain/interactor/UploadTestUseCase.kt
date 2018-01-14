@@ -6,6 +6,7 @@ import fr.bmartel.speedtest.inter.IRepeatListener
 import fr.bmartel.speedtest.model.UploadStorageType
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import ua.dev.krava.speedtest.BuildConfig
 import ua.dev.krava.speedtest.domain.utils.MathUtils
 
 
@@ -18,7 +19,7 @@ class UploadTestUseCase(private val url: String) {
         val socket = SpeedTestSocket()
         socket.uploadStorageType = UploadStorageType.FILE_STORAGE
         return Flowable.create({
-            socket.startUploadRepeat (url, 10000, 250, 900000, object: IRepeatListener {
+            socket.startUploadRepeat (url, BuildConfig.TEST_REPEAT_WINDOW, BuildConfig.TEST_REPORT_INTERVAL, BuildConfig.FILE_SIZE_OCTET, object: IRepeatListener {
                 override fun onCompletion(report: SpeedTestReport?) {
                     socket.closeSocket()
                     socket.clearListeners()
@@ -28,7 +29,7 @@ class UploadTestUseCase(private val url: String) {
 
                 override fun onReport(report: SpeedTestReport) {
                     if (!it.isCancelled) {
-                        val speed = report.transferRateBit.toDouble() / 1048576
+                        val speed = report.transferRateBit.toDouble() / MBITS_KOF
                         it.onNext(MathUtils.round(speed.toFloat(), 2))
                     } else {
                         socket.closeSocket()
@@ -37,5 +38,9 @@ class UploadTestUseCase(private val url: String) {
                 }
             })
         }, BackpressureStrategy.MISSING)
+    }
+
+    companion object {
+        private val MBITS_KOF = 1048576
     }
 }

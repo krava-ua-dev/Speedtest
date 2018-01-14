@@ -5,6 +5,7 @@ import fr.bmartel.speedtest.SpeedTestSocket
 import fr.bmartel.speedtest.inter.IRepeatListener
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import ua.dev.krava.speedtest.BuildConfig
 import ua.dev.krava.speedtest.domain.utils.MathUtils
 
 /**
@@ -15,7 +16,7 @@ class DownloadTestUseCase(private val url: String) {
     fun execute(): Flowable<Float> {
         val socket = SpeedTestSocket()
         return Flowable.create({
-            socket.startDownloadRepeat(url.replace("upload.php", "random3000x3000.jpg"), 10000, 250, object: IRepeatListener {
+            socket.startDownloadRepeat(url.replace("upload.php", "random3000x3000.jpg"), BuildConfig.TEST_REPEAT_WINDOW, BuildConfig.TEST_REPORT_INTERVAL, object: IRepeatListener {
                 override fun onCompletion(report: SpeedTestReport?) {
                     socket.closeSocket()
                     socket.clearListeners()
@@ -25,7 +26,7 @@ class DownloadTestUseCase(private val url: String) {
 
                 override fun onReport(report: SpeedTestReport) {
                     if (!it.isCancelled) {
-                        val speed = report.transferRateBit.toDouble() / 1048576
+                        val speed = report.transferRateBit.toDouble() / MBITS_KOF
                         it.onNext(MathUtils.round(speed.toFloat(), 2))
                     } else {
                         socket.closeSocket()
@@ -34,5 +35,9 @@ class DownloadTestUseCase(private val url: String) {
                 }
             })
         }, BackpressureStrategy.MISSING)
+    }
+
+    companion object {
+        private val MBITS_KOF = 1048576
     }
 }

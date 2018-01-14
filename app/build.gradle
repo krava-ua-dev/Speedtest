@@ -21,6 +21,21 @@ android {
             debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField("Integer", "TEST_REPEAT_WINDOW", "10000")
+            buildConfigField("Integer", "TEST_REPORT_INTERVAL", "250")
+            buildConfigField("Integer", "FILE_SIZE_OCTET", "900000")
+            buildConfigField("String", "SERVERS_LIST_URL", "http://www.speedtest.net/speedtest-servers.php")
+            buildConfigField("String", "IP_INFO_URL", "http://ip-api.com/json")
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            buildConfigField("Integer", "TEST_REPEAT_WINDOW", "6000")
+            buildConfigField("Integer", "TEST_REPORT_INTERVAL", "250")
+            buildConfigField("Integer", "FILE_SIZE_OCTET", "900000")
+            buildConfigField("String", "SERVERS_LIST_URL", "http://www.speedtest.net/speedtest-servers.php")
+            buildConfigField("String", "IP_INFO_URL", "http://ip-api.com/json")
         }
     }
 }
