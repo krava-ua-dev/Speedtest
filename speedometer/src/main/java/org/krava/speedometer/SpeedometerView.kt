@@ -75,13 +75,13 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var default_text_size: Float = 0.toFloat()
     private val min_size: Int
 
-    private fun initProgressAnimator(new: Float) {
+    private fun initProgressAnimator(new: Float, duration: Long = 245) {
         progressAnimator?.let { if (it.isRunning) it.cancel() }
         progressAnimator = ValueAnimator.ofFloat(progress, new)
         progressAnimator?.addUpdateListener {
             invalidate()
         }
-        progressAnimator?.duration = 245
+        progressAnimator?.duration = duration
         progressAnimator?.start()
     }
 
@@ -104,6 +104,12 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
         attributes.recycle()
 
         initPainters()
+    }
+
+    fun animateToZero() {
+        if (progress != 0.0f) {
+            initProgressAnimator(0.0f, 1400)
+        }
     }
 
     private fun initPainters() {
@@ -197,10 +203,9 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (progressAnimator != null) {
-            progress = progressAnimator?.animatedValue as Float
+        progressAnimator?.let {
+            progress = it.animatedValue as Float
         }
-
         val startAngle = 270 - arcAngle / 2f
 
         paintArcOutLight.color = Color.argb(5, 255, 255, 255)

@@ -8,6 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import ua.dev.krava.speedtest.data.repository.DataRepositoryImpl
 import ua.dev.krava.speedtest.domain.interactor.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by evheniikravchyna on 02.01.2018.
@@ -91,6 +92,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
         viewState.onStartUpload()
         this.currentDisposable = UploadTestUseCase(currentTest.server.url)
                 .execute()
+                .delay(1500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ speed ->

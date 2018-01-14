@@ -102,6 +102,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
             override fun onAnimationStart(p0: Animator?) { }
             override fun onAnimationCancel(p0: Animator?) { }
         }).start()
+        progressView.animateToZero()
     }
 
     override fun onStartUpload() {
@@ -111,10 +112,8 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     }
 
     override fun onUploadUpdate(progress: Float) {
-        progressView.postDelayed({
-            progressView.setProgress(progress)
-            uploadValue.text = "$progress"
-        }, 16)
+        progressView.setProgress(progress)
+        uploadValue.text = "$progress"
     }
 
     override fun onUploadComplete() {
@@ -127,15 +126,14 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
             override fun onAnimationStart(p0: Animator?) { }
             override fun onAnimationCancel(p0: Animator?) { }
         }).start()
+        progressView.animateToZero()
         btnRepeatTest.visibility = View.VISIBLE
     }
 
 
     override fun onDownloadUpdate(progress: Float) {
-        progressView.postDelayed({
-            progressView.setProgress(progress)
-            downloadValue.text = "$progress"
-        }, 16)
+        progressView.setProgress(progress)
+        downloadValue.text = "$progress"
     }
 
     override fun onCheckLocation() {
