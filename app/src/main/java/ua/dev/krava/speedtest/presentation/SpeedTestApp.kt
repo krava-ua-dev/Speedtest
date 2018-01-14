@@ -20,7 +20,6 @@ class SpeedTestApp: Application() {
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this)
         }
-
         val fabric = Fabric.Builder(this)
                 .kits(Crashlytics())
                 .debuggable(true)
