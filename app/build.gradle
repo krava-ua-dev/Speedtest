@@ -12,8 +12,8 @@ android {
         applicationId "ua.dev.krava.speedtest"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 5
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -25,8 +25,8 @@ android {
             buildConfigField("Integer", "TEST_REPEAT_WINDOW", "10000")
             buildConfigField("Integer", "TEST_REPORT_INTERVAL", "250")
             buildConfigField("Integer", "FILE_SIZE_OCTET", "900000")
-            buildConfigField("String", "SERVERS_LIST_URL", "http://www.speedtest.net/speedtest-servers.php")
-            buildConfigField("String", "IP_INFO_URL", "http://ip-api.com/json")
+            buildConfigField("String", "SERVERS_LIST_URL", "\"http://www.speedtest.net/speedtest-servers.php\"")
+            buildConfigField("String", "IP_INFO_URL", "\"http://ip-api.com/json\"")
         }
         debug {
             debuggable true
@@ -34,8 +34,8 @@ android {
             buildConfigField("Integer", "TEST_REPEAT_WINDOW", "6000")
             buildConfigField("Integer", "TEST_REPORT_INTERVAL", "250")
             buildConfigField("Integer", "FILE_SIZE_OCTET", "900000")
-            buildConfigField("String", "SERVERS_LIST_URL", "http://www.speedtest.net/speedtest-servers.php")
-            buildConfigField("String", "IP_INFO_URL", "http://ip-api.com/json")
+            buildConfigField("String", "SERVERS_LIST_URL", "\"http://www.speedtest.net/speedtest-servers.php\"")
+            buildConfigField("String", "IP_INFO_URL", "\"http://ip-api.com/json\"")
         }
     }
 }

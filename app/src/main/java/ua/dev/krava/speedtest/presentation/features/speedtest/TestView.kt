@@ -14,6 +14,7 @@ interface TestView: MvpView {
 
     fun onCheckServer()
     fun onServerReady(host: String)
+    fun onServerError()
 
     fun onStartCheckingPing()
     fun onPingSuccess(timeMS: Int)

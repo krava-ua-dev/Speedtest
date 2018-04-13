@@ -17,12 +17,13 @@ import ua.dev.krava.speedtest.presentation.utils.createXmlParser
 import ua.dev.krava.speedtest.presentation.utils.readTextAndClose
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 /**
  * Created by evheniikravchyna on 03.01.2018.
  */
-object DataRepositoryImpl: IDataRepository {
+object DataRepositoryImpl : IDataRepository {
     private lateinit var db: AppDatabase
 
 
@@ -49,21 +50,27 @@ object DataRepositoryImpl: IDataRepository {
 
     override fun checkIpInfo(): Observable<IpInfo> {
         return Observable.create({
-            val ipResponse = OkHttpClient().makeCall(BuildConfig.IP_INFO_URL)
-            if (ipResponse.isSuccessful) try {
+            val ipResponse = OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .build()
+                    .makeCall(BuildConfig.IP_INFO_URL)
+            if (ipResponse.isSuccessful) {
                 val responseString = ipResponse.body()?.byteStream()?.readTextAndClose()
                 it.onNext(IpInfo(JSONObject(responseString)))
-                it.onComplete()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
+                it.onError(Exception("Speedtest Unknown Exception"))
             }
+            it.onComplete()
         })
     }
 
     override fun loadServers(): Observable<Boolean> {
         return Observable.create<Boolean> { emitter ->
             try {
-                val response = OkHttpClient().makeCall(BuildConfig.SERVERS_LIST_URL)
+                val response = OkHttpClient.Builder()
+                        .connectTimeout(10, TimeUnit.SECONDS)
+                        .build()
+                        .makeCall(BuildConfig.SERVERS_LIST_URL)
                 if (response.isSuccessful) {
                     val bodyStream = response.body()?.byteStream()
                     bodyStream?.use {

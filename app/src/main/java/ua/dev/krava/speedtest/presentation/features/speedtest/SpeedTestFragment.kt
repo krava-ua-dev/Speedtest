@@ -96,7 +96,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         flickerAnimation?.cancel()
         downloadValue.animate().scaleX(1.5f).scaleY(1.5f).setListener(object: Animator.AnimatorListener {
             override fun onAnimationEnd(p0: Animator?) {
-                downloadValue.animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start()
+                downloadValue?.apply { animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start() }
             }
             override fun onAnimationRepeat(p0: Animator?) { }
             override fun onAnimationStart(p0: Animator?) { }
@@ -120,7 +120,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         flickerAnimation?.cancel()
         uploadValue.animate().scaleX(1.5f).scaleY(1.5f).setListener(object: Animator.AnimatorListener {
             override fun onAnimationEnd(p0: Animator?) {
-                uploadValue.animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start()
+                uploadValue?.apply { animate().scaleX(1.0f).scaleY(1.0f).setListener(null).start() }
             }
             override fun onAnimationRepeat(p0: Animator?) { }
             override fun onAnimationStart(p0: Animator?) { }
@@ -151,6 +151,12 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
 
     override fun onCheckServer() {
 
+    }
+
+    override fun onServerError() {
+        onServerReady("Error")
+        onLocation("Error")
+        btnRepeatTest.visibility = View.VISIBLE
     }
 
     override fun onServerReady(host: String) {

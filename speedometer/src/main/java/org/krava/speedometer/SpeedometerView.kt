@@ -89,7 +89,7 @@ class SpeedometerView @JvmOverloads constructor(context: Context, attrs: Attribu
         get() = Utils.dp2px(resources, 4f)
 
     private val bottomText: String
-        get() = "Bits Per Second"
+        get() = "MBits Per Second"
 
     init {
         default_text_size = Utils.sp2px(resources, 18f)

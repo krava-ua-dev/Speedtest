@@ -21,6 +21,15 @@
 #-renamesourcefileattribute SourceFile
 
 
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
+
+
 #start okhttp3
 -dontwarn okhttp3.**
 -dontwarn okio.**

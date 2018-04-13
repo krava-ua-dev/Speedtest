@@ -2,14 +2,14 @@
 
 buildscript {
     ext.kotlin_version = '1.2.10'
-    ext.support_version = '27.0.2'
+    ext.support_version = '27.1.1'
     ext.moxy_version = '1.5.3'
     ext.anko_version = '0.10.3'
     ext.room_version = '1.0.0'
     ext.okhttp_version = '3.9.1'
     ext.rxjava_version = '2.1.8'
     ext.rxandroid_version = '2.0.1'
-    ext.speedtest_version = '1.31.3'
+    ext.speedtest_version = '1.32.0'
     ext.constraint_layout_version = '1.0.2'
 
     repositories {

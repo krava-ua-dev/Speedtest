@@ -6,6 +6,7 @@ import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import ua.dev.krava.speedtest.BuildConfig
 import ua.dev.krava.speedtest.data.repository.DataRepositoryImpl
 import ua.dev.krava.speedtest.domain.interactor.*
 import java.util.concurrent.TimeUnit
@@ -47,7 +48,9 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                     myLocation.longitude = ipInfo.lon
                     checkServer(ipInfo.cc, ipInfo.city, ipInfo.region, myLocation)
                 }, {
-                    it.printStackTrace()
+                    if (BuildConfig.DEBUG) it.printStackTrace()
+
+                    viewState.onServerError()
                 })
     }
 
@@ -67,7 +70,9 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                     viewState.onStartCheckingPing()
                     pingHost(tempHost)
                 }, {
-                    it.printStackTrace()
+                    if (BuildConfig.DEBUG) it.printStackTrace()
+
+                    viewState.onServerError()
                 })
     }
 
@@ -81,7 +86,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                     currentTest.downloadSpeed = speed
                     viewState.onDownloadUpdate(speed)
                 }, {
-                    it.printStackTrace()
+                    if (BuildConfig.DEBUG) it.printStackTrace()
                 }, {
                     viewState.onDownloadComplete()
                     startUpload()
@@ -99,7 +104,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                     currentTest.uploadSpeed = speed
                     viewState.onUploadUpdate(speed)
                 }, {
-                    it.printStackTrace()
+                    if (BuildConfig.DEBUG) it.printStackTrace()
                 }, {
                     viewState.onUploadComplete()
                     saveTestResult()
@@ -107,7 +112,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
     }
 
     private fun pingHost(host: String) {
-        this.currentDisposable = CheckPingUserCase(host)
+        this.currentDisposable = CheckPingUseCase(host)
                 .execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
