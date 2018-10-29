@@ -1,15 +1,18 @@
 package ua.dev.krava.speedtest.presentation.features.speedtest
 
 import android.animation.Animator
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_test.*
 import org.krava.speedometer.SpeedometerView
 import ua.dev.krava.speedtest.R
+import ua.dev.krava.speedtest.presentation.features.privacy.PrivacyPolicyActivity
 
 /**
  * Created by evheniikravchyna on 01.01.2018.
@@ -19,6 +22,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
     lateinit var presenter: SpeedTestPresenter
     private lateinit var btnStartTest: View
     private lateinit var btnRepeatTest: View
+    private lateinit var txtPrivacyPolicy: TextView
     private lateinit var progressView: SpeedometerView
     private var flickerAnimation: FlickerAnimation? = null
 
@@ -39,6 +43,10 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         btnStartTest.setOnClickListener {
             presenter.startTest()
         }
+        txtPrivacyPolicy = view.findViewById(R.id.privacy_policy)
+        txtPrivacyPolicy.setOnClickListener {
+            startActivity(Intent(context, PrivacyPolicyActivity::class.java))
+        }
         btnRepeatTest.setOnClickListener {
             btnRepeatTest.visibility = View.GONE
             speedContainer.visibility = View.GONE
@@ -53,6 +61,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
 
     override fun showDefaultState() {
         btnStartTest.visibility = View.VISIBLE
+        txtPrivacyPolicy.visibility = View.VISIBLE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +72,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
 
     override fun onTestStarted() {
         btnStartTest.visibility = View.GONE
+        txtPrivacyPolicy.visibility = View.GONE
         testResultContainer.visibility = View.VISIBLE
     }
 
@@ -78,6 +88,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         pingProgressIndicator.visibility = View.GONE
         pingValue.text = "Error"
         btnRepeatTest.visibility = View.VISIBLE
+        txtPrivacyPolicy.visibility = View.VISIBLE
     }
 
     override fun onStartCheckingPing() {
@@ -128,6 +139,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         }).start()
         progressView.animateToZero()
         btnRepeatTest.visibility = View.VISIBLE
+        txtPrivacyPolicy.visibility = View.VISIBLE
     }
 
 
@@ -157,6 +169,7 @@ class SpeedTestFragment: MvpAppCompatFragment(), TestView {
         onServerReady("Error")
         onLocation("Error")
         btnRepeatTest.visibility = View.VISIBLE
+        txtPrivacyPolicy.visibility = View.VISIBLE
     }
 
     override fun onServerReady(host: String) {

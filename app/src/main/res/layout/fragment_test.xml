@@ -225,13 +225,13 @@
         </FrameLayout>
     </LinearLayout>
 
-    <TextView
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnStartTest"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/bg_btn_start_selector"
         android:gravity="center"
         android:elevation="3dp"
@@ -245,13 +245,13 @@
         android:textColor="#A500C0"
         android:textSize="14sp"/>
 
-    <TextView
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnRepeatTest"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:fontFamily="@font/roboto_medium"
         android:background="@drawable/bg_btn_primary"
         android:elevation="3dp"
@@ -265,4 +265,14 @@
         android:textColor="#fff"
         android:textSize="15sp" />
 
+    <TextView
+        android:id="@+id/privacy_policy"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="@string/privacy_policy"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/roboto_medium"/>
 </RelativeLayout>

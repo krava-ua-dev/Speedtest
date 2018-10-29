@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SpeedTest</string>
+    <string name="privacy_policy"><u>Privacy Policy</u></string>
+    <string name="history_tab_date">Date</string>
+    <string name="history_tab_date_hint">dd.mm.yy</string>
+    <string name="hitsory_tab_download">Download</string>
+    <string name="history_tab_upload">Upload</string>
+    <string name="history_tab_ping">Ping</string>
+    <string name="no_history">Your history is empty. You can move to screen with test or tap \'MAKE TEST\'</string>
+    <string name="btn_make_test">make test</string>
 </resources>

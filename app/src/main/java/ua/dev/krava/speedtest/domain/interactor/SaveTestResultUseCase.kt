@@ -11,15 +11,14 @@ import ua.dev.krava.speedtest.presentation.features.speedtest.TestState
  */
 class SaveTestResultUseCase(private val testState: TestState) {
 
-
-
     fun execute() {
-        Observable.create<Any> {
-            testState.date = System.currentTimeMillis()
-            DataRepositoryImpl.saveTest(testState.createEntry())
-        }
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe()
+        Observable
+                .create<Any> {
+                    testState.date = System.currentTimeMillis()
+                    DataRepositoryImpl.saveTest(testState.createEntry())
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
     }
 }

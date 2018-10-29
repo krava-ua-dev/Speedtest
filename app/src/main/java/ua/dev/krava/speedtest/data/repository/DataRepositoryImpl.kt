@@ -2,8 +2,13 @@ package ua.dev.krava.speedtest.data.repository
 
 import android.arch.persistence.room.Room
 import android.content.Context
-import io.reactivex.Observable
+import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import org.xmlpull.v1.XmlPullParser
 import ua.dev.krava.speedtest.BuildConfig
@@ -48,27 +53,34 @@ object DataRepositoryImpl : IDataRepository {
         db.history().insert(test.toEntity())
     }
 
-    override fun checkIpInfo(): Observable<IpInfo> {
-        return Observable.create({
-            val ipResponse = OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .build()
-                    .makeCall(BuildConfig.IP_INFO_URL)
-            if (ipResponse.isSuccessful) {
-                val responseString = ipResponse.body()?.byteStream()?.readTextAndClose()
-                it.onNext(IpInfo(JSONObject(responseString)))
-            } else {
-                it.onError(Exception("Speedtest Unknown Exception"))
-            }
-            it.onComplete()
-        })
+    override fun checkIpInfo(): Single<IpInfo> {
+        return Single
+                .create { emitter: SingleEmitter<IpInfo> ->
+                    val ipResponse = OkHttpClient.Builder()
+                            .connectTimeout(10, TimeUnit.SECONDS)
+                            .build()
+                            .makeCall(BuildConfig.IP_INFO_URL)
+                    if (!emitter.isDisposed) {
+                        if (ipResponse.isSuccessful) {
+                            val responseString = ipResponse.body()?.byteStream()?.readTextAndClose()
+                            emitter.onSuccess(IpInfo(JSONObject(responseString)))
+                        } else {
+                            emitter.onError(Exception("Speedtest Unknown Exception"))
+                        }
+                    }
+                }
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun loadServers(): Observable<Boolean> {
-        return Observable.create<Boolean> { emitter ->
+    override fun loadServers(): Completable {
+        return Completable.create { emitter ->
             try {
                 val response = OkHttpClient.Builder()
                         .connectTimeout(10, TimeUnit.SECONDS)
+                        .writeTimeout(20, TimeUnit.SECONDS)
+                        .readTimeout(20, TimeUnit.SECONDS)
+                        .addInterceptor(getLoggingInterceptor())
                         .build()
                         .makeCall(BuildConfig.SERVERS_LIST_URL)
                 if (response.isSuccessful) {
@@ -94,17 +106,28 @@ object DataRepositoryImpl : IDataRepository {
                             }
                             parser.next()
                         } while (parser.name != "servers" || parser.eventType != XmlPullParser.END_TAG)
-                        if (servers.size > 0) {
-                            saveServers(servers)
-                            emitter.onNext(true)
-                        } else {
-                            emitter.onNext(false)
+                        if (!emitter.isDisposed) {
+                            if (servers.size > 0) {
+                                saveServers(servers)
+                                emitter.onComplete()
+                            } else {
+                                emitter.onError(Throwable("Error during loading servers"))
+                            }
                         }
                     }
                 }
             } catch (e: IOException) {
-                emitter.onError(e)
+                if (!emitter.isDisposed) {
+                    emitter.onError(e)
+                }
             }
         }
+        .subscribeOn(Schedulers.single())
+        .observeOn(AndroidSchedulers.mainThread())
+    }
+
+
+    private fun getLoggingInterceptor() = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
 }

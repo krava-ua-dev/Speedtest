@@ -6,7 +6,7 @@ import ua.dev.krava.speedtest.BuildConfig
 import ua.dev.krava.speedtest.data.repository.DataRepositoryImpl
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.Crashlytics
-
+import io.reactivex.plugins.RxJavaPlugins
 
 
 /**
@@ -27,5 +27,15 @@ class SpeedTestApp: Application() {
         Fabric.with(fabric)
 
         DataRepositoryImpl.init(applicationContext)
+        safeRxJavaCrashes()
+    }
+
+
+    private fun safeRxJavaCrashes() {
+        RxJavaPlugins.setErrorHandler {
+            if (BuildConfig.DEBUG) {
+                it.printStackTrace()
+            }
+        }
     }
 }

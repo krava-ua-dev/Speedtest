@@ -1,6 +1,8 @@
 package ua.dev.krava.speedtest.domain.repository
 
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import ua.dev.krava.speedtest.data.model.IpInfo
 import ua.dev.krava.speedtest.data.model.ServerEntity
 import ua.dev.krava.speedtest.presentation.model.TestEntry
@@ -10,11 +12,11 @@ import ua.dev.krava.speedtest.presentation.model.TestEntry
  */
 interface IDataRepository {
 
-    fun checkIpInfo(): Observable<IpInfo>
+    fun checkIpInfo(): Single<IpInfo>
 
     fun saveTest(test: TestEntry)
 
-    fun loadServers(): Observable<Boolean>
+    fun loadServers(): Completable
 
     fun saveServers(servers: List<ServerEntity>)
 

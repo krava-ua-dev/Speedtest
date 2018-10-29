@@ -39,14 +39,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Date"
+                android:text="@string/history_tab_date"
                 android:textColor="#fff"
                 android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="dd/mm/yy"
+                android:text="@string/history_tab_date_hint"
                 android:textColor="#96ffffff"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Download"
+                android:text="@string/hitsory_tab_download"
                 android:textColor="#fff"
                 android:textSize="15sp" />
 
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Upload"
+                android:text="@string/history_tab_upload"
                 android:textColor="#fff"
                 android:textSize="15sp" />
 
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Ping"
+                android:text="@string/history_tab_ping"
                 android:textColor="#fff"
                 android:textSize="15sp" />
 
@@ -209,7 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Your history is empty.\nYou need move to screen with test\nor tap 'MAKE TEST'"
+            android:text="@string/no_history"
             android:textColor="#d7ffffff"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -227,7 +227,7 @@
             android:includeFontPadding="false"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
-            android:text="make test"
+            android:text="@string/btn_make_test"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="14sp"

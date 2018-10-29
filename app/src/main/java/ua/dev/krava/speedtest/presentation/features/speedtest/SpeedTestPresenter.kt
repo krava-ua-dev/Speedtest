@@ -3,13 +3,10 @@ package ua.dev.krava.speedtest.presentation.features.speedtest
 import android.location.Location
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.disposables.CompositeDisposable
 import ua.dev.krava.speedtest.BuildConfig
 import ua.dev.krava.speedtest.data.repository.DataRepositoryImpl
 import ua.dev.krava.speedtest.domain.interactor.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by evheniikravchyna on 02.01.2018.
@@ -17,7 +14,7 @@ import java.util.concurrent.TimeUnit
 @InjectViewState
 class SpeedTestPresenter: MvpPresenter<TestView>() {
     private lateinit var currentTest: TestState
-    private var currentDisposable: Disposable? = null
+    private var currentDisposable = CompositeDisposable()
     var autoStartTest = false
 
 
@@ -38,9 +35,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
 
     private fun checkIpInfo() {
         viewState.onCheckLocation()
-        this.currentDisposable = DataRepositoryImpl.checkIpInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        currentDisposable.add(DataRepositoryImpl.checkIpInfo()
                 .subscribe({ ipInfo ->
                     viewState.onLocation(ipInfo.city)
                     val myLocation = Location("")
@@ -49,17 +44,14 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                     checkServer(ipInfo.cc, ipInfo.city, ipInfo.region, myLocation)
                 }, {
                     if (BuildConfig.DEBUG) it.printStackTrace()
-
                     viewState.onServerError()
-                })
+                }))
     }
 
     private fun checkServer(countryCode: String, city: String, region: String, location: Location) {
         viewState.onCheckServer()
-        this.currentDisposable = CheckServerUseCase(countryCode, city, region, location)
+        currentDisposable.add(CheckServerUseCase(countryCode, city, region, location)
                 .execute()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     currentTest.server = it
                     var tempHost = currentTest.server.host
@@ -71,17 +63,14 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                     pingHost(tempHost)
                 }, {
                     if (BuildConfig.DEBUG) it.printStackTrace()
-
                     viewState.onServerError()
-                })
+                }))
     }
 
     private fun startDownload() {
         viewState.onStartDownload()
-        this.currentDisposable = DownloadTestUseCase(currentTest.server.url)
+        this.currentDisposable.add(DownloadTestUseCase(currentTest.server.url)
                 .execute()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ speed ->
                     currentTest.downloadSpeed = speed
                     viewState.onDownloadUpdate(speed)
@@ -90,16 +79,14 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                 }, {
                     viewState.onDownloadComplete()
                     startUpload()
-                })
+                }))
     }
 
     private fun startUpload() {
         viewState.onStartUpload()
-        this.currentDisposable = UploadTestUseCase(currentTest.server.url)
+        this.currentDisposable.add(UploadTestUseCase(currentTest.server.url)
                 .execute()
-                .delay(1500, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+
                 .subscribe({ speed ->
                     currentTest.uploadSpeed = speed
                     viewState.onUploadUpdate(speed)
@@ -108,25 +95,19 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
                 }, {
                     viewState.onUploadComplete()
                     saveTestResult()
-                })
+                }))
     }
 
     private fun pingHost(host: String) {
-        this.currentDisposable = CheckPingUseCase(host)
+        this.currentDisposable.add(CheckPingUseCase(host)
                 .execute()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ pingResult ->
-                    if (pingResult == -1) {
-                        viewState.onPingError()
-                    } else {
-                        currentTest.ping = pingResult
-                        viewState.onPingSuccess(pingResult)
-                        startDownload()
-                    }
+                    currentTest.ping = pingResult
+                    viewState.onPingSuccess(pingResult)
+                    startDownload()
                 }, {
                     viewState.onPingError()
-                })
+                }))
     }
 
     private fun saveTestResult() {
@@ -134,9 +115,7 @@ class SpeedTestPresenter: MvpPresenter<TestView>() {
     }
 
     override fun onDestroy() {
-        currentDisposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
+        if (!currentDisposable.isDisposed) currentDisposable.clear()
         super.onDestroy()
     }
 }
